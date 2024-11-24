@@ -1,8 +1,10 @@
 import streamlit as st
+from code_analyze import CodeAnalyze
 
 import radon.raw as rr
 import radon.metrics as rm
 import radon.complexity as rc
+
 
 
 def main():
@@ -13,32 +15,33 @@ def main():
         submit_button = st.form_submit_button(label="Analyze")
 
 
-
     tab1, tab2, tab3, tab4 = st.tabs(["Code Analysis", "test", "test", "test"])
 
     if submit_button: 
+
+        try:
+            compile(raw_code,"<string>","exec")
+        except Exception as e:
+            st.error(f"There was a error on" )
+            return
+
+        analyzer = CodeAnalyze(raw_code)
+
         with tab1:
             st.subheader("Code Analysis")
             with st.expander("Orginal Code"):
                 st.code(raw_code)
-            st.subheader("RAW SCA Metrics")
-            basic_analysis = rr.analyze(raw_code)
-            st.write(basic_analysis)
+        
+        analyzer.analyze_code()
+        analyzer.metrics_calc()
+        analyzer.hals_metrics()
+        
 
-            mi_results = rm.mi_visit(raw_code,True)
+
+        
 
 
-            cc_results = rc.cc_visit(raw_code)
-            #st.write(cc_results[0])
 
-            hal_results = rm.h_visit(raw_code)
-
-            col1, col2 = st.columns(2)
-            col1.metric(label="Maintiablity Index",value=mi_results)
-            col2.metric(label="Cyclomatic complexity",value=f"{cc_results[0]}")
-
-            with st.expander("Halstead Metrics"):
-                st.write(hal_results[0])
 
                 
 
