@@ -1,6 +1,8 @@
 import streamlit as st
 from code_analyze import CodeAnalyze
 from code_quality import CodeQuality
+from security_analyze import SecurityCheck
+
 
 
 def main():
@@ -11,15 +13,18 @@ def main():
         submit_button = st.form_submit_button(label="Analyze")
 
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Code Analysis", "Code Quality", "test", "test"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Code Analysis", "Code Quality", "Security Vulnerability", "test"])
 
     if submit_button:
         errors = []
 
         qualityCheck = CodeQuality(raw_code)
         analyzer = CodeAnalyze(raw_code)
+        security = SecurityCheck(raw_code)
 
         errors = qualityCheck.qualitycheck()
+
+        testSecurity = security.securityIssue()
 
         try:
             compile(raw_code,'<string>','exec')
@@ -41,9 +46,23 @@ def main():
             if errors:
                 with st.expander("Quality Issues"):
                     for error in errors:
-                        st.error(error)
+                        test = error.split(':')
+                        st.error(f"Line: {test[2]}, Column: {test[3]}, Error: {test[4]}")
             else:
                 st.write("No Suggestions.")
+
+        with tab3:
+            st.subheader("Security Vulnerability")
+            with st.expander("Original Code"):
+                st.code(raw_code)
+            st.subheader("Security Risks")
+            with st.expander("Issues"):
+                st.error(testSecurity)
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
