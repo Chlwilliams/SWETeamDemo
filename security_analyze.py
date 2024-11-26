@@ -1,4 +1,3 @@
-import bandit
 import tempfile
 import os
 import subprocess
@@ -22,6 +21,8 @@ class SecurityCheck():
                 return result
         except:
             print("erm?")
+        finally:
+            os.remove(temp_code.name)
 
 
 
