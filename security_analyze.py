@@ -11,6 +11,7 @@ class SecurityCheck():
     def securityIssue(self):
         with tempfile.NamedTemporaryFile(delete=False,suffix='.py', mode='w+t') as temp_code:
             temp_code.write(self.raw_code)
+        errors = []
         try:
             result = subprocess.run(
                 ['bandit', temp_code.name],
@@ -18,7 +19,9 @@ class SecurityCheck():
                 text=True
             )
             if result.stdout:
-                return result
+                errors.append(result)
+                errors = result.stdout.splitlines()
+                return errors
         except:
             print("erm?")
         finally:

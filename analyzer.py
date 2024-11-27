@@ -4,7 +4,6 @@ from code_quality import CodeQuality
 from security_analyze import SecurityCheck
 
 
-
 def main():
     st.title("Static Code Analysis App")
 
@@ -13,10 +12,11 @@ def main():
         submit_button = st.form_submit_button(label="Analyze")
 
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Code Analysis", "Code Quality", "Security Vulnerability", "test"])
+    tab1, tab2, tab3 = st.tabs(["Code Analysis", "Code Quality", "Security Vulnerability"])
 
     if submit_button:
         errors = []
+        testSecurity = []
 
         qualityCheck = CodeQuality(raw_code)
         analyzer = CodeAnalyze(raw_code)
@@ -41,8 +41,10 @@ def main():
             analyzer.hals_metrics()
 
         with tab2:
+            st.subheader("Code Quality")
             with st.expander("Orginal Code"):
                 st.code(raw_code)
+            st.subheader("Issues")
             if errors:
                 with st.expander("Quality Issues"):
                     for error in errors:
@@ -57,7 +59,8 @@ def main():
                 st.code(raw_code)
             st.subheader("Security Risks")
             with st.expander("Issues"):
-                st.error(testSecurity)
+                for test in testSecurity:
+                    st.write(test)
 
 
 
