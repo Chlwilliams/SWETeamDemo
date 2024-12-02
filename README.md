@@ -60,12 +60,3 @@ eval("os.system('rm -rf /')")
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
-
-### **3. Deliverable Checklist**
-- **Executable**: Ensure all dependencies are listed in `requirements.txt`.
-- **Source Codes**: Include `analyzer.py`, `code_analyze.py`, `code_quality.py`, and `security_analyze.py`.
-- **Software Test Result (STR)**: Use the provided table.
-- **User Manual**: Use the `README.md` example above.
-- **GitHub Repository**: Push the project to GitHub and share the link.
-- **Shared Folder Link**: Include any additional files not hosted on GitHub (e.g., screenshots or example inputs/outputs).
-- **Archived Project**: Compress the project folder as `.zip` or `.tar.gz`.
