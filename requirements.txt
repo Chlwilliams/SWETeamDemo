@@ -1,0 +1,4 @@
+streamlit==1.25.0
+radon==5.1.0
+flake8==6.1.0
+bandit==1.7.4
